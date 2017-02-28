@@ -1,0 +1,7 @@
+/**
+ * 
+ */
+var AdminDashboard = {
+};
+jQuery(function() {
+});
