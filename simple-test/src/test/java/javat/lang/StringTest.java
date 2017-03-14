@@ -12,7 +12,7 @@ public class StringTest {
 	char tab = '	'; // 9
 	char[] chars = {space,entireSpace,tab};
 	for (char c : chars) {
-	    System.out.println(Integer.valueOf(c));
+	    System.out.println(String.format("bin: (%s), dec: (%s), hex: (%s)",Integer.toBinaryString(c), Integer.valueOf(c),Integer.toHexString(c)));
 	}
 	char entireSpaceChar = 12288;
 	String entireSpaceString = String.valueOf(entireSpaceChar);
