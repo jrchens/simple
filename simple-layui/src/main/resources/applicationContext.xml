@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+  <context:component-scan base-package="me.simple.*.service.impl" />
+
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    <property name="url" value="jdbc:mysql://localhost:3306/simple" />
+    <property name="username" value="develop" />
+    <property name="password" value="develop" />
+  </bean>
+
+  <!--   <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> -->
+  <!--     <property name="driverClass" value="com.mysql.jdbc.Driver" /> -->
+  <!--     <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/simple" /> -->
+  <!--     <property name="user" value="develop" /> -->
+  <!--     <property name="password" value="develop" /> -->
+  <!--     <property name="preferredTestQuery" value="SELECT 1" /> -->
+  <!--     <property name="testConnectionOnCheckout" value="true" /> -->
+  <!--   </bean> -->
+  
+  <!--   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> -->
+  <!--     <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+  <!--     <property name="url" value="jdbc:mysql://localhost:3306/simple" /> -->
+  <!--     <property name="username" value="develop" /> -->
+  <!--     <property name="password" value="develop" /> -->
+  <!--     <property name="validationQuery" value="SELECT 1" /> -->
+  <!--     <property name="testOnBorrow" value="true" /> -->
+  <!--   </bean> -->
+  
+  <!--   <bean id="config" -->
+  <!--     class="org.springframework.beans.factory.config.PropertiesFactoryBean"> -->
+  <!--     <property name="locations"> -->
+  <!--       <list> -->
+  <!--         <value>classpath:config.properties</value> -->
+  <!--       </list> -->
+  <!--     </property> -->
+  <!--   </bean> -->
+  <!-- <context:property-placeholder location="classpath:config.properties" /> -->
+
+  <bean id="transactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+
+  <!-- <tx:annotation-driven /> -->
+  <aop:config>
+      <aop:pointcut id="txPointCut" expression="execution(* me.simple.*.service.impl.*(..))"/>
+      <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+  </aop:config>
+
+  <tx:advice id="txAdvice" transaction-manager="transactionManager">
+      <tx:attributes>
+          <tx:method name="get*" read-only="true"/>
+          <tx:method name="query*" read-only="true"/>
+          <tx:method name="find*" read-only="true"/>
+          <tx:method name="check*" read-only="true"/>
+          <tx:method name="verify*" read-only="true"/>
+          <tx:method name="exists*" read-only="true"/>
+          <tx:method name="print*" read-only="true"/>
+          <tx:method name="*"/>
+      </tx:attributes>
+  </tx:advice>
+
+  <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+    <property name="cacheNames">
+      <set>
+        <value>default</value>
+      </set>
+    </property>
+  </bean>
+
+  <!-- <import resource="classpath:cacheConfig.xml" /> -->
+  <!-- <import resource="classpath:shiroConfig.xml" /> -->
+
+</beans>

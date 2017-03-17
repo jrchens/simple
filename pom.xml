@@ -311,5 +311,6 @@
   <modules>
     <module>simple-admin</module>
     <module>simple-test</module>
+    <module>simple-layui</module>
   </modules>
 </project>
