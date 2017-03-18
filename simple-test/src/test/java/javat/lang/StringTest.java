@@ -10,7 +10,9 @@ public class StringTest {
 	char space = ' '; // 32
 	char entireSpace = '　'; // 12288
 	char tab = '	'; // 9
-	char[] chars = {space,entireSpace,tab};
+	char comma = ','; 
+	char entireComma = '，'; 
+	char[] chars = {space,entireSpace,tab,comma,entireComma};
 	for (char c : chars) {
 	    System.out.println(String.format("bin: (%s), dec: (%s), hex: (%s)",Integer.toBinaryString(c), Integer.valueOf(c),Integer.toHexString(c)));
 	}

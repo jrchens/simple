@@ -16,5 +16,17 @@ public class CharacterTest {
 	}
     }
     
+    @Test
+    public void testCharacterToHex(){
+	// CJK Symbols and Punctuation
+	char[] chars = {',','，'};
+	// 002c , ff0c
+	for (char c : chars) {
+		System.out.println(String.format("%s,%s,%s", String.valueOf(c),Integer.valueOf(c),Integer.toHexString(c)));
+	}
+	
+	// System.out.println(String.format("%s , %s", "\u002c","\uff0c"));
+    }
+    
     
 }
