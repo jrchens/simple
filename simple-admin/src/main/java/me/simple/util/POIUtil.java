@@ -3,6 +3,7 @@ package me.simple.util;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -19,6 +20,16 @@ public class POIUtil {
     private static final String dateFormatPattern = "yyyy-MM-dd";
     private static final DecimalFormat numberFormat = new DecimalFormat();
     private static final String numberFormatPattern = "#0.##";
+    
+    /**
+     * The following patterns are used in {@link #isADateFormat(int, String)}
+     */
+    private static final Pattern date_ptrn1 = Pattern.compile("^\\[\\$\\-.*?\\]");
+    private static final Pattern date_ptrn2 = Pattern.compile("^\\[[a-zA-Z]+\\]");
+    private static final Pattern date_ptrn3a = Pattern.compile("[yYmMdDhHsS\u5e74\u6708\u65e5\u65f6\u5206\u79d2]"); // 年月日时分秒
+    private static final Pattern date_ptrn3b = Pattern.compile("^[\\[\\]yYmMdDhHsS\u5e74\u6708\u65e5\u65f6\u5206\u79d2\\-T/,. :\"\\\\]+0*[ampAMP/]*$");
+    //  elapsed time patterns: [h],[m] and [s]
+    private static final Pattern date_ptrn4 = Pattern.compile("^\\[([hH]+|[mM]+|[sS]+)\\]");
 
     public static boolean isValidRow(Row row) {
 	if (row == null) {
@@ -32,6 +43,109 @@ public class POIUtil {
 	return false;
     }
     
+    /**
+     * copy form org.apache.poi.ss.usermodel.DateUtil.isADateFormat(int formatIndex, String formatString)
+     * @param formatIndex
+     * @param formatString
+     * @return
+     */
+    private static boolean isADateFormat(int formatIndex, String formatString) {
+        // First up, is this an internal date format?
+//        if(isInternalDateFormat(formatIndex)) {
+//            cache(formatString, formatIndex, true);
+//            return true;
+//        }
+	
+        // If we didn't get a real string, don't even cache it as we can always find this out quickly
+//        if(formatString == null || formatString.length() == 0) {
+//            return false;
+//        }
+
+        // check the cache first
+//        if (isCached(formatString, formatIndex)) {
+//            return lastCachedResult.get();
+//        }
+
+        String fs = formatString;
+        /*if (false) {
+            // Normalize the format string. The code below is equivalent
+            // to the following consecutive regexp replacements:
+
+             // Translate \- into just -, before matching
+             fs = fs.replaceAll("\\\\-","-");
+             // And \, into ,
+             fs = fs.replaceAll("\\\\,",",");
+             // And \. into .
+             fs = fs.replaceAll("\\\\\\.",".");
+             // And '\ ' into ' '
+             fs = fs.replaceAll("\\\\ "," ");
+
+             // If it end in ;@, that's some crazy dd/mm vs mm/dd
+             //  switching stuff, which we can ignore
+             fs = fs.replaceAll(";@", "");
+
+             // The code above was reworked as suggested in bug 48425:
+             // simple loop is more efficient than consecutive regexp replacements.
+        }*/
+        StringBuilder sb = new StringBuilder(fs.length());
+        for (int i = 0; i < fs.length(); i++) {
+            char c = fs.charAt(i);
+            if (i < fs.length() - 1) {
+                char nc = fs.charAt(i + 1);
+                if (c == '\\') {
+                    switch (nc) {
+                        case '-':
+                        case ',':
+                        case '.':
+                        case ' ':
+                        case '\\':
+                            // skip current '\' and continue to the next char
+                            continue;
+                    }
+                } else if (c == ';' && nc == '@') {
+                    i++;
+                    // skip ";@" duplets
+                    continue;
+                }
+            }
+            sb.append(c);
+        }
+        fs = sb.toString();
+
+        // short-circuit if it indicates elapsed time: [h], [m] or [s]
+        if(date_ptrn4.matcher(fs).matches()){
+//            cache(formatString, formatIndex, true);
+            return true;
+        }
+
+        // If it starts with [$-...], then could be a date, but
+        //  who knows what that starting bit is all about
+        fs = date_ptrn1.matcher(fs).replaceAll("");
+        // If it starts with something like [Black] or [Yellow],
+        //  then it could be a date
+        fs = date_ptrn2.matcher(fs).replaceAll("");
+        // You're allowed something like dd/mm/yy;[red]dd/mm/yy
+        //  which would place dates before 1900/1904 in red
+        // For now, only consider the first one
+        if(fs.indexOf(';') > 0 && fs.indexOf(';') < fs.length()-1) {
+           fs = fs.substring(0, fs.indexOf(';'));
+        }
+
+        // Ensure it has some date letters in it
+        // (Avoids false positives on the rest of pattern 3)
+        if (! date_ptrn3a.matcher(fs).find()) {
+           return false;
+        }
+        
+        // If we get here, check it's only made up, in any case, of:
+        //  y m d h s - \ / , . : [ ] T
+        // optionally followed by AM/PM
+
+        boolean result = date_ptrn3b.matcher(fs).matches();
+        // cache(formatString, formatIndex, result);
+        return result;
+    }
+    
     public static boolean isDateCell(Cell cell) {
 	if (cell == null) {
 	    return false;
@@ -39,10 +153,9 @@ public class POIUtil {
 	int type = cell.getCellType();
 	if (type == Cell.CELL_TYPE_NUMERIC) {
 	    CellStyle cellStyle = cell.getCellStyle();
-	    String formatString = cellStyle.getDataFormatString();
 	    short format = cellStyle.getDataFormat();
-	    if (DateUtil.isCellDateFormatted(cell) || DateUtil.isCellInternalDateFormatted(cell)
-		    || DateUtil.isADateFormat(format, formatString) || DateUtil.isInternalDateFormat(format)) {
+	    String formatString = cellStyle.getDataFormatString();
+	    if (DateUtil.isCellDateFormatted(cell) || isADateFormat(format, formatString)) {
 		return true;
 	    }
 	}

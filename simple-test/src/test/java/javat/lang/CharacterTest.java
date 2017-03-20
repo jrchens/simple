@@ -1,9 +1,11 @@
 package javat.lang;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CharacterTest {
-
+    private final static Logger logger = LoggerFactory.getLogger(CharacterTest.class);
 
     @Test
     public void testSpecialCharacter(){
@@ -26,7 +28,10 @@ public class CharacterTest {
 	}
 	
 	// System.out.println(String.format("%s , %s", "\u002c","\uff0c"));
+	
+	chars = "年月日时分秒".toCharArray();
+	for (char c : chars) {
+	    logger.error("{}",Integer.toHexString(c));
+	}
     }
-    
-    
 }
