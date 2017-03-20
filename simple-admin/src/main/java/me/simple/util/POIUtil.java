@@ -31,6 +31,23 @@ public class POIUtil {
 	}
 	return false;
     }
+    
+    public static boolean isDateCell(Cell cell) {
+	if (cell == null) {
+	    return false;
+	}
+	int type = cell.getCellType();
+	if (type == Cell.CELL_TYPE_NUMERIC) {
+	    CellStyle cellStyle = cell.getCellStyle();
+	    String formatString = cellStyle.getDataFormatString();
+	    short format = cellStyle.getDataFormat();
+	    if (DateUtil.isCellDateFormatted(cell) || DateUtil.isCellInternalDateFormatted(cell)
+		    || DateUtil.isADateFormat(format, formatString) || DateUtil.isInternalDateFormat(format)) {
+		return true;
+	    }
+	}
+	return false;
+    }
 
     public static String getCellStringValue(Cell cell, String pattern) {
 	if (cell == null) {
