@@ -18,7 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
 
-import me.simple.util.HSSFCellValueUtil;
+import me.simple.util.POIUtil;
 
 public class XSSFWorkbookTest {
 
@@ -132,7 +132,7 @@ public class XSSFWorkbookTest {
 	    for (int i = 0; i <= rows; i++) {
 		Row row = sheet.getRow(i);
 		for (Cell cell : row) {
-		    System.out.println(HSSFCellValueUtil.getCellStringValue(cell));
+		    System.out.println(POIUtil.getCellStringValue(cell));
 		}
 	    }
 	} finally {
