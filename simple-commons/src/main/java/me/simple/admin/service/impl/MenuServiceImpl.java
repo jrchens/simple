@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import me.simple.admin.service.MenuService;
-import me.simple.commons.entity.Menu;
-import me.simple.commons.entity.MenuRowMapper;
+import me.simple.common.entity.Menu;
+import me.simple.common.entity.MenuRowMapper;
 
 @Service
 @Transactional(readOnly=true)

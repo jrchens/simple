@@ -2,9 +2,9 @@ package me.simple.cms.service;
 
 import java.util.List;
 
-import me.simple.commons.entity.Channel;
-import me.simple.commons.entity.ChannelNode;
-import me.simple.commons.entity.Pagination;
+import me.simple.common.entity.Channel;
+import me.simple.common.entity.ChannelNode;
+import me.simple.common.entity.Pagination;
 
 public interface ChannelService {
 

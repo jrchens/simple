@@ -3,7 +3,7 @@ package me.simple.common.service;
 import java.util.List;
 import java.util.Map;
 
-import me.simple.commons.entity.Attachment;
+import me.simple.common.entity.Attachment;
 
 public interface AttachmentService {
     Attachment saveAttachment(Attachment attachment);

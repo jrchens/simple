@@ -22,9 +22,9 @@ import com.google.common.collect.Lists;
 
 import me.simple.cms.service.ArticleService;
 import me.simple.cms.service.ChannelService;
-import me.simple.commons.entity.Article;
-import me.simple.commons.entity.ArticleRowMapper;
-import me.simple.commons.entity.Pagination;
+import me.simple.common.entity.Article;
+import me.simple.common.entity.ArticleRowMapper;
+import me.simple.common.entity.Pagination;
 import me.simple.util.Constants;
 import me.simple.util.SqlUtil;
 

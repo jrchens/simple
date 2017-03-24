@@ -40,9 +40,9 @@ import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 
+import me.simple.common.entity.Attachment;
+import me.simple.common.entity.AttachmentRef;
 import me.simple.common.service.AttachmentService;
-import me.simple.commons.entity.Attachment;
-import me.simple.commons.entity.AttachmentRef;
 import me.simple.util.Constants;
 import me.simple.util.PathUtil;
 import me.simple.util.SqlUtil;

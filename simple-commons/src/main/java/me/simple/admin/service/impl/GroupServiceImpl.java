@@ -18,9 +18,9 @@ import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 
 import me.simple.admin.service.GroupService;
-import me.simple.commons.entity.Group;
-import me.simple.commons.entity.GroupRowMapper;
-import me.simple.commons.entity.Pagination;
+import me.simple.common.entity.Group;
+import me.simple.common.entity.GroupRowMapper;
+import me.simple.common.entity.Pagination;
 import me.simple.util.SqlUtil;
 
 @Service

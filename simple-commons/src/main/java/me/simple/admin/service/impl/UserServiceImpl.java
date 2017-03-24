@@ -21,9 +21,9 @@ import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 
 import me.simple.admin.service.UserService;
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.User;
-import me.simple.commons.entity.UserRowMapper;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.User;
+import me.simple.common.entity.UserRowMapper;
 import me.simple.util.SqlUtil;
 
 @Service

@@ -17,9 +17,9 @@ import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 
 import me.simple.admin.service.RoleService;
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.Role;
-import me.simple.commons.entity.RoleRowMapper;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.Role;
+import me.simple.common.entity.RoleRowMapper;
 import me.simple.util.SqlUtil;
 
 @Service

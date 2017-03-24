@@ -19,9 +19,9 @@ import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 
 import me.simple.cms.service.ProductService;
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.Product;
-import me.simple.commons.entity.ProductRowMapper;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.Product;
+import me.simple.common.entity.ProductRowMapper;
 import me.simple.util.Constants;
 import me.simple.util.SqlUtil;
 

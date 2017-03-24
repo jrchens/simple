@@ -2,8 +2,8 @@ package me.simple.admin.service;
 
 import java.util.List;
 
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.User;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.User;
 
 public interface UserService {
 

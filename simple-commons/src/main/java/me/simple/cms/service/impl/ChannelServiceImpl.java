@@ -24,11 +24,11 @@ import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 
 import me.simple.cms.service.ChannelService;
-import me.simple.commons.entity.Channel;
-import me.simple.commons.entity.ChannelNode;
-import me.simple.commons.entity.ChannelNodeRowMapper;
-import me.simple.commons.entity.ChannelRowMapper;
-import me.simple.commons.entity.Pagination;
+import me.simple.common.entity.Channel;
+import me.simple.common.entity.ChannelNode;
+import me.simple.common.entity.ChannelNodeRowMapper;
+import me.simple.common.entity.ChannelRowMapper;
+import me.simple.common.entity.Pagination;
 import me.simple.util.Constants;
 import me.simple.util.SqlUtil;
 

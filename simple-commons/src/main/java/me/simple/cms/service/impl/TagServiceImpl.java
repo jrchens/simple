@@ -20,9 +20,9 @@ import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 
 import me.simple.cms.service.TagService;
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.Tag;
-import me.simple.commons.entity.TagRowMapper;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.Tag;
+import me.simple.common.entity.TagRowMapper;
 import me.simple.util.Constants;
 import me.simple.util.SqlUtil;
 

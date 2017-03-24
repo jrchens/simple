@@ -2,7 +2,7 @@ package me.simple.admin.service;
 
 import java.util.List;
 
-import me.simple.commons.entity.Menu;
+import me.simple.common.entity.Menu;
 
 public interface MenuService {
 

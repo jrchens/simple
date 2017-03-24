@@ -2,8 +2,8 @@ package me.simple.cms.service;
 
 import java.util.List;
 
-import me.simple.commons.entity.Article;
-import me.simple.commons.entity.Pagination;
+import me.simple.common.entity.Article;
+import me.simple.common.entity.Pagination;
 
 public interface ArticleService {
 

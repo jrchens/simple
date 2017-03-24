@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import me.simple.cache.service.CacheService;
-import me.simple.commons.entity.Article;
-import me.simple.commons.entity.ArticleRowMapper;
+import me.simple.common.entity.Article;
+import me.simple.common.entity.ArticleRowMapper;
 
 @Service
 @Transactional(readOnly=true)

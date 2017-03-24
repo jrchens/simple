@@ -3,7 +3,7 @@ package me.simple.cache.service;
 import java.util.List;
 import java.util.Map;
 
-import me.simple.commons.entity.Article;
+import me.simple.common.entity.Article;
 
 public interface CacheService {
 
