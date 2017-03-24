@@ -10,12 +10,8 @@
   <packaging>war</packaging>
 
   <dependencies>
-    <dependency>
-      <groupId>me.simple</groupId>
-      <artifactId>simple-admin</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
+  
+    <!-- test lib -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -28,5 +24,12 @@
       <version>4.2.9.RELEASE</version>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>me.simple</groupId>
+      <artifactId>simple-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
   </dependencies>
 </project>
