@@ -13,9 +13,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import me.simple.admin.entity.Pagination;
-import me.simple.admin.entity.Role;
 import me.simple.admin.service.RoleService;
+import me.simple.commons.entity.Pagination;
+import me.simple.commons.entity.Role;
 
 @Controller
 @RequestMapping(value = "admin/role")

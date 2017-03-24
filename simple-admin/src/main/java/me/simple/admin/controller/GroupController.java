@@ -13,9 +13,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import me.simple.admin.entity.Pagination;
-import me.simple.admin.entity.Group;
 import me.simple.admin.service.GroupService;
+import me.simple.commons.entity.Group;
+import me.simple.commons.entity.Pagination;
 
 @Controller
 @RequestMapping(value = "admin/group")

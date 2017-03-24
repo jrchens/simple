@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import me.simple.admin.entity.Article;
 import me.simple.cache.service.CacheService;
+import me.simple.commons.entity.Article;
 
 @Controller
 @RequestMapping(value = "admin/cache")
@@ -20,7 +20,7 @@ public class CacheController {
     @Autowired
     private CacheService cacheService;
 
-    @RequestMapping(value = { "default" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "defaults" }, method = RequestMethod.GET)
     @ResponseBody
     public String defaults(@RequestParam(defaultValue = "1", required = false) String key) {
 	return cacheService.getString(key);
@@ -35,7 +35,6 @@ public class CacheController {
     @RequestMapping(value = { "mapList" }, method = RequestMethod.GET)
     @ResponseBody
     public List<Map<String, Object>> mapList(@RequestParam(defaultValue = "1", required = false) String key) {
-	// Jackson2JsonRedisSerializer
 	return cacheService.queryMapList(key);
     }
 

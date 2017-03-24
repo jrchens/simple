@@ -18,13 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
-import com.google.common.collect.Lists;
-
-import me.simple.admin.entity.Pagination;
-import me.simple.admin.entity.User;
 import me.simple.admin.service.GroupService;
 import me.simple.admin.service.RoleService;
 import me.simple.admin.service.UserService;
+import me.simple.commons.entity.Pagination;
+import me.simple.commons.entity.User;
 import me.simple.util.Constants;
 
 @Controller

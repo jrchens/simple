@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
   <context:component-scan base-package="me.simple.*.service.impl" />
-
+  
   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="com.mysql.jdbc.Driver" />
     <property name="url" value="jdbc:mysql://localhost:3306/simple" />
@@ -48,41 +48,32 @@
   <!--       </list> -->
   <!--     </property> -->
   <!--   </bean> -->
-  <!-- <context:property-placeholder location="classpath:config.properties" /> -->
+  <context:property-placeholder location="classpath:config.properties" />
 
   <bean id="transactionManager"
     class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
     <property name="dataSource" ref="dataSource" />
   </bean>
 
-  <!-- <tx:annotation-driven /> -->
-  <aop:config>
-      <aop:pointcut id="txPointCut" expression="execution(* me.simple.*.service.impl.*(..))"/>
-      <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
-  </aop:config>
+  <tx:annotation-driven />
+<!--   <aop:config> -->
+<!--       <aop:pointcut id="txPointCut" expression="execution(* me.simple.*.service.impl.*(..))"/> -->
+<!--       <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/> -->
+<!--   </aop:config> -->
+<!--   <tx:advice id="txAdvice" transaction-manager="transactionManager"> -->
+<!--       <tx:attributes> -->
+<!--           <tx:method name="get*" read-only="true"/> -->
+<!--           <tx:method name="query*" read-only="true"/> -->
+<!--           <tx:method name="find*" read-only="true"/> -->
+<!--           <tx:method name="check*" read-only="true"/> -->
+<!--           <tx:method name="verify*" read-only="true"/> -->
+<!--           <tx:method name="exists*" read-only="true"/> -->
+<!--           <tx:method name="print*" read-only="true"/> -->
+<!--           <tx:method name="*"/> -->
+<!--       </tx:attributes> -->
+<!--   </tx:advice> -->
 
-  <tx:advice id="txAdvice" transaction-manager="transactionManager">
-      <tx:attributes>
-          <tx:method name="get*" read-only="true"/>
-          <tx:method name="query*" read-only="true"/>
-          <tx:method name="find*" read-only="true"/>
-          <tx:method name="check*" read-only="true"/>
-          <tx:method name="verify*" read-only="true"/>
-          <tx:method name="exists*" read-only="true"/>
-          <tx:method name="print*" read-only="true"/>
-          <tx:method name="*"/>
-      </tx:attributes>
-  </tx:advice>
-
-  <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
-    <property name="cacheNames">
-      <set>
-        <value>default</value>
-      </set>
-    </property>
-  </bean>
-
-  <!-- <import resource="classpath:cacheConfig.xml" /> -->
+  <import resource="classpath:cacheConfig.xml" />
   <!-- <import resource="classpath:shiroConfig.xml" /> -->
 
 </beans>

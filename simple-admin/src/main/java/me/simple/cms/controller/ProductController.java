@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
-import me.simple.admin.entity.Pagination;
-import me.simple.admin.entity.Product;
 import me.simple.cms.service.ProductService;
 import me.simple.cms.service.TagService;
+import me.simple.commons.entity.Pagination;
+import me.simple.commons.entity.Product;
 
 @Controller
 @RequestMapping(value = "cms/product")

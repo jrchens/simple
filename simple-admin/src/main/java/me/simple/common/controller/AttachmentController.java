@@ -18,8 +18,8 @@ import org.springframework.web.context.request.WebRequest;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import me.simple.admin.entity.Attachment;
 import me.simple.common.service.AttachmentService;
+import me.simple.commons.entity.Attachment;
 
 @Controller
 @RequestMapping(value = "common/attach")

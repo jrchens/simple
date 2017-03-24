@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
-import me.simple.admin.entity.Article;
-import me.simple.admin.entity.Pagination;
 import me.simple.cms.service.ArticleService;
+import me.simple.commons.entity.Article;
+import me.simple.commons.entity.Pagination;
 
 @Controller
 @RequestMapping(value = "cms/article")
