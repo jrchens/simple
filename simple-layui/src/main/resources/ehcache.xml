@@ -5,44 +5,53 @@
 
   <diskStore path="java.io.tmpdir" />
 
-  <defaultCache eternal="false" diskPersistent="false" />
+  <defaultCache eternal="false" diskPersistent="false"  />
   
-  <!-- TODO JGroups -->
-  
-  <cacheManagerPeerProviderFactory
+<!--   <cacheManagerPeerProviderFactory -->
+<!--    class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory" -->
+<!--    properties="peerDiscovery=automatic,multicastGroupAddress=192.168.0.104,multicastGroupPort=4446"/> -->
+<!--    <cacheManagerPeerListenerFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"/> -->
+   
+   <!-- TODO JGroups -->
+   <cacheManagerPeerProviderFactory
    class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
    properties="peerDiscovery=manual,rmiUrls=//192.168.0.104:40001/defaults|//192.168.0.104:40001/maps|//192.168.0.104:40001/mapList|//192.168.0.104:40001/articles|//192.168.0.104:40001/articlesList"/>
-  <cacheManagerPeerListenerFactory   
+   <cacheManagerPeerListenerFactory   
    class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"   
    properties="hostName=192.168.0.104,port=40001, socketTimeoutMillis=120000"/> 
-   
+
   <cache name="defaults" maxElementsInMemory="1000"
     timeToIdleSeconds="3600" timeToLiveSeconds="3600"
     memoryStoreEvictionPolicy="LFU">
+    <persistence strategy="none" synchronousWrites="false"/>
     <cacheEventListenerFactory
       class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
   </cache>
 
   <cache name="maps" maxElementsInMemory="1000" timeToIdleSeconds="3600"
     timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU">
+    <persistence strategy="none" synchronousWrites="false"/>
     <cacheEventListenerFactory
       class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
   </cache>
 
   <cache name="mapList" maxElementsInMemory="1000" timeToIdleSeconds="3600"
     timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU">
+    <persistence strategy="none" synchronousWrites="false"/>
     <cacheEventListenerFactory
       class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
   </cache>
 
   <cache name="articles" maxElementsInMemory="1000" timeToIdleSeconds="3600"
     timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU">
+    <persistence strategy="none" synchronousWrites="false"/>
     <cacheEventListenerFactory
       class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
   </cache>
 
   <cache name="articleList" maxElementsInMemory="1000" timeToIdleSeconds="3600"
     timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU">
+    <persistence strategy="none" synchronousWrites="false"/>
     <cacheEventListenerFactory
       class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
   </cache>
