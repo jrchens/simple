@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import me.simple.cms.service.ChannelService;
-import me.simple.commons.entity.Channel;
-import me.simple.commons.entity.ChannelNode;
-import me.simple.commons.entity.Pagination;
+import me.simple.common.entity.Channel;
+import me.simple.common.entity.ChannelNode;
+import me.simple.common.entity.Pagination;
 
 @Controller
 @RequestMapping(value = "cms/channel")

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import me.simple.cache.service.CacheService;
-import me.simple.commons.entity.Article;
+import me.simple.common.entity.Article;
 
 @Controller
 @RequestMapping(value = "admin/cache")

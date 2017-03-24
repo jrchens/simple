@@ -17,8 +17,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import me.simple.cms.service.ProductService;
 import me.simple.cms.service.TagService;
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.Product;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.Product;
 
 @Controller
 @RequestMapping(value = "cms/product")

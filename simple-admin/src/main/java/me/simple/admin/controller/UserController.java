@@ -21,8 +21,8 @@ import org.springframework.web.context.request.WebRequest;
 import me.simple.admin.service.GroupService;
 import me.simple.admin.service.RoleService;
 import me.simple.admin.service.UserService;
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.User;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.User;
 import me.simple.util.Constants;
 
 @Controller

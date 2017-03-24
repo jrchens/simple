@@ -18,8 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.User;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext-test.xml")

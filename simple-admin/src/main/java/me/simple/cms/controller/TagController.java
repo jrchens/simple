@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import me.simple.cms.service.TagService;
-import me.simple.commons.entity.Pagination;
-import me.simple.commons.entity.Tag;
+import me.simple.common.entity.Pagination;
+import me.simple.common.entity.Tag;
 
 @Controller
 @RequestMapping(value = "cms/tag")
