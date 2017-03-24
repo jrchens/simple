@@ -1,8 +1,5 @@
 package javat.lang;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,4 +35,18 @@ public class ByteTest {
 
 	// Assert.assertEquals(s, buffer.toString());
     }
+    
+
+    @Test
+    public void testByteToString() throws Exception {
+	byte s = 'a';
+	byte e = 'z';
+	for (byte i = s; i <= e; i++) {
+	    // System.out.println(Byte.toString(i));
+//	    System.out.println(Character.getName(i));
+	    System.out.println((char)i);
+	}
+    }
+    
+    
 }
