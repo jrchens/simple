@@ -10,32 +10,11 @@
   <packaging>war</packaging>
 
   <dependencies>
-
     <dependency>
       <groupId>me.simple</groupId>
       <artifactId>simple-common</artifactId>
       <version>${project.version}</version>
     </dependency>
-  
-    <!-- upload -->
-    <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.3.2</version>
-    </dependency>
-    
-    <!-- tiles -->
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-el</artifactId>
-      <version>3.0.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-jsp</artifactId>
-      <version>3.0.5</version>
-    </dependency>
-
   </dependencies>
   <build>
     <finalName>simple-admin</finalName>

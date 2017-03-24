@@ -7,10 +7,10 @@
     <version>2017.1</version>
   </parent>
   <artifactId>simple-test</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <dependencies>
-  
+
     <!-- test lib -->
     <dependency>
       <groupId>junit</groupId>
@@ -24,12 +24,12 @@
       <version>4.2.9.RELEASE</version>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>me.simple</groupId>
       <artifactId>simple-common</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
   </dependencies>
 </project>
