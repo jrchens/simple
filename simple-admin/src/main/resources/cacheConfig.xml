@@ -30,8 +30,15 @@
     <property name="port" value="${redis.port}"></property>
     <property name="password" value="${redis.password}"></property>
   </bean>
-
+  
+  <bean id="jackson2JsonRedisSerializer" class="org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer">
+    <constructor-arg index="0" value="java.lang.Object"></constructor-arg>
+  </bean>
   <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+    <property name="keySerializer" ref="jackson2JsonRedisSerializer"/>
+    <property name="valueSerializer" ref="jackson2JsonRedisSerializer"/>
+    <property name="hashKeySerializer" ref="jackson2JsonRedisSerializer"/>
+    <property name="hashValueSerializer" ref="jackson2JsonRedisSerializer"/>
     <property name="connectionFactory" ref="jedisConnectionFactory"></property>
   </bean>
 
@@ -40,7 +47,10 @@
     <constructor-arg index="1">
       <set>
         <value>default</value>
-        <value>users</value>
+        <value>maps</value>
+        <value>mapList</value>
+        <value>articles</value>
+        <value>articleList</value>
       </set>
     </constructor-arg>
     <property name="usePrefix" value="true"></property>
