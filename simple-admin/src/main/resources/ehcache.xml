@@ -7,7 +7,7 @@
 
   <defaultCache eternal="false" diskPersistent="false" />
 
-  <cache name="xxxxCache" 
+  <cache name="default" 
     maxElementsInMemory="1000"
     timeToIdleSeconds="3600"
     timeToLiveSeconds="3600" 

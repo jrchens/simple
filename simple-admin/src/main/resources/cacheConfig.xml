@@ -5,14 +5,46 @@
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/cache 
+        http://www.springframework.org/schema/cache
         http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
-    p:cache-manager-ref="ehcache" />
-  <bean id="ehcache"
-    class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
-    p:config-location="classpath:ehcache.xml" />
   <cache:annotation-driven />
+
+  <!-- <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager"> -->
+  <!-- <property name="cacheNames"> -->
+  <!-- <set> -->
+  <!-- <value>default</value> -->
+  <!-- </set> -->
+  <!-- </property> -->
+  <!-- </bean> -->
+
+  <!-- <bean id="ehcache" -->
+  <!-- class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" -->
+  <!-- p:config-location="classpath:ehcache.xml" /> -->
+  <!-- <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" -->
+  <!-- p:cache-manager-ref="ehcache" /> -->
+
+  <bean id="jedisConnectionFactory"
+    class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+    <property name="hostName" value="${redis.host.name}"></property>
+    <property name="port" value="${redis.port}"></property>
+    <property name="password" value="${redis.password}"></property>
+  </bean>
+
+  <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+    <property name="connectionFactory" ref="jedisConnectionFactory"></property>
+  </bean>
+
+  <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+    <constructor-arg index="0" ref="redisTemplate"></constructor-arg>
+    <constructor-arg index="1">
+      <set>
+        <value>default</value>
+        <value>users</value>
+      </set>
+    </constructor-arg>
+    <property name="usePrefix" value="true"></property>
+  </bean>
+
 
 </beans>
