@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+<!-- <property name="LOG_HOME" value="${logback.file.path}" /> -->
+  <property resource="config.properties" />
 <!--     <appender name="FILE" -->
 <!--         class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
-<!--         <file>/var/log/xxfw.log</file> -->
+<!--         <file>${logback.file.path}/xxfw.log</file> -->
 <!--         <rollingPolicy -->
 <!--             class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"> -->
-<!--             <fileNamePattern>/var/log/xxfw.%d{yyyy-MM-dd}.%i.log -->
+<!--             <fileNamePattern>${logback.file.path}/${logback.file.size.time.name.pattern} -->
 <!--             </fileNamePattern> -->
 <!--             <maxFileSize>100MB</maxFileSize> -->
 <!--             <maxHistory>31</maxHistory> -->
@@ -18,9 +20,9 @@
 
 <!--     <appender name="FILE" -->
 <!--         class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
-<!--         <file>/var/log/xxfw.log</file> -->
+<!--         <file>${logback.file.path}/xxfw.log</file> -->
 <!--         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> -->
-<!--             <fileNamePattern>/var/log/xxfw.%i.log.zip</fileNamePattern> -->
+<!--             <fileNamePattern>${logback.file.path}/${logback.file.zip.name.pattern}</fileNamePattern> -->
 <!--             <minIndex>1</minIndex> -->
 <!--             <maxIndex>21</maxIndex> -->
 <!--         </rollingPolicy> -->
@@ -32,20 +34,19 @@
 <!--         </encoder> -->
 <!--     </appender> -->
 
-<!--     <appender name="FILE" -->
-<!--         class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
-<!--         <file>/var/log/xxfw.log</file> -->
-<!--         <rollingPolicy -->
-<!--             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
-<!--             <fileNamePattern>/var/log/xxfw.%d{yyyy-MM-dd}.log -->
-<!--             </fileNamePattern> -->
-<!--             <maxHistory>31</maxHistory> -->
-<!--             <totalSizeCap>3GB</totalSizeCap> -->
-<!--         </rollingPolicy> -->
-<!--         <encoder> -->
-<!--             <pattern>%-4r %d %-5level %logger{35} - %msg%n</pattern> -->
-<!--         </encoder> -->
-<!--     </appender> -->
+    <appender name="FILE"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.file.path}/${logback.file.name}</file>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logback.file.path}/${logback.file.time.name.pattern}</fileNamePattern>
+            <maxHistory>31</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%-4r %d %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -61,10 +62,10 @@
 	<!--   <logger name="org.springframework.jdbc.core.namedparam" level="DEBUG" /> -->
 	<!--   <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/> -->
 
-<!--     <root level="INFO"> -->
-<!--         <appender-ref ref="FILE" /> -->
-<!--     </root> -->
     <root level="INFO">
-    	<appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </root>
+<!--     <root level="INFO"> -->
+<!--     	<appender-ref ref="STDOUT" /> -->
+<!--     </root> -->
 </configuration>
