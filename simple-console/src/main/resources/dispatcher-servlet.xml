@@ -39,13 +39,17 @@
     </mvc:content-negotiation>
   </mvc:view-resolvers>
 
-  <!-- <mvc:interceptors> -->
-  <!-- <mvc:interceptor> -->
-  <!-- <mvc:mapping path="/**"/> -->
-  <!-- <mvc:exclude-mapping path="/login"/> -->
-  <!-- <bean class="me.anla.common.security.CSRFHandlerInterceptor"></bean> -->
-  <!-- </mvc:interceptor> -->
-  <!-- </mvc:interceptors> -->
+  <mvc:interceptors>
+    <mvc:interceptor>
+      <mvc:mapping path="/**" />
+      <bean class="me.simple.web.servlet.IPInterceptor"></bean>
+    </mvc:interceptor>
+<!--   <mvc:interceptor> -->
+<!--   <mvc:mapping path="/**"/> -->
+<!--   <mvc:exclude-mapping path="/login"/> -->
+<!--   <bean class="me.anla.common.security.CSRFHandlerInterceptor"></bean> -->
+<!--   </mvc:interceptor> -->
+  </mvc:interceptors>
 
   <mvc:resources location="/WEB-INF/resources/" mapping="/resources/**"
     cache-period="86400"></mvc:resources>

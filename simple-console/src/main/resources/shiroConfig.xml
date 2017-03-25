@@ -13,6 +13,9 @@
   <bean id="rolesAuthorizationFilter"
     class="org.apache.shiro.web.filter.authz.RolesAuthorizationFilter">
   </bean>
+  <!--   <bean id="hostFilter" class="org.apache.shiro.web.filter.authz.HostFilter"> -->
+  <!--     <property name="authorizedHosts">${shiro.authorized.hosts}</property> -->
+  <!--   </bean> -->
 
   <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
     <property name="securityManager" ref="securityManager" />
