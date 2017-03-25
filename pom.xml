@@ -348,7 +348,7 @@
 
   <modules>
     <module>simple-common</module>
-    <module>simple-admin</module>
+    <module>simple-console</module>
     <module>simple-layui</module>
     <module>simple-test</module>
   </modules>

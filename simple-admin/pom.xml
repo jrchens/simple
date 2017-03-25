@@ -6,7 +6,7 @@
     <artifactId>simple</artifactId>
     <version>2017.1</version>
   </parent>
-  <artifactId>simple-admin</artifactId>
+  <artifactId>simple-console</artifactId>
   <packaging>war</packaging>
 
   <dependencies>
@@ -17,6 +17,6 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>simple-admin</finalName>
+    <finalName>simple-console</finalName>
   </build>
 </project>
