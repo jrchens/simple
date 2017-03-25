@@ -12,6 +12,10 @@ import org.hibernate.validator.constraints.Length;
 
 public class Tag implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7236696718732948662L;
     @Length(groups={Save.class,Update.class,Get.class,Remove.class},min=1,max=32)
     private String tagname;
     @Length(groups={Save.class,Update.class},min=1,max=32)

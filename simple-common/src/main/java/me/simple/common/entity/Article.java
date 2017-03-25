@@ -14,6 +14,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 public class Article implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3543063964005985255L;
     // ===
     private int channelId;
     private String channelNameValue;

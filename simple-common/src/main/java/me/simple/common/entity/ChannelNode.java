@@ -6,6 +6,10 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 public class ChannelNode implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8228586583483248116L;
     // ===
     private List<ChannelNode> nodes = Lists.newArrayList();
     // ===

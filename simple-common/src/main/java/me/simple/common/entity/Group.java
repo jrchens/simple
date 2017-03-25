@@ -11,6 +11,10 @@ import org.hibernate.validator.constraints.Length;
 
 public class Group implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3732751759055964656L;
     @Length(groups={Save.class,Update.class,Get.class,Remove.class},min=1,max=32)
     private String groupname;
     @Length(groups={Save.class,Update.class},min=1,max=32)

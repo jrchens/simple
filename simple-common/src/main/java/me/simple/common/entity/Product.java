@@ -14,6 +14,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Product implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7320329655707371347L;
+
     // ===
     @NotEmpty(groups={Save.class,Update.class})
     private List<String> tags;

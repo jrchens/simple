@@ -11,6 +11,10 @@ import org.hibernate.validator.constraints.Length;
 
 public class Role implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6381841235037396589L;
     @Length(groups={Save.class,Update.class,Get.class,Remove.class},min=1,max=32)
     private String rolename;
     @Length(groups={Save.class,Update.class},min=1,max=32)

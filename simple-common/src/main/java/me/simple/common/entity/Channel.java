@@ -14,6 +14,10 @@ import org.hibernate.validator.constraints.Length;
 import com.google.common.collect.Lists;
 
 public class Channel implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8539009958107486382L;
     // ===
     private List<Channel> children = Lists.newArrayList();
     // ===

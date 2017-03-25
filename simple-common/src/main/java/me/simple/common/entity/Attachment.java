@@ -13,7 +13,11 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Attachment implements Serializable {
-//    @NotEmpty(groups={Save.class})
+/**
+     * 
+     */
+    private static final long serialVersionUID = -161875192773003964L;
+    //    @NotEmpty(groups={Save.class})
     private MultipartFile[] files;
     @Length(groups={Save.class,Query.class},min=1,max=32)
     private String module;

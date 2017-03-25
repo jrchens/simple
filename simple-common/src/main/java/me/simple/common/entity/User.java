@@ -13,6 +13,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class User implements Serializable {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2764439166562305535L;
+
     // ===
     @NotEmpty(groups={Update.class})
     private List<String> roles;
