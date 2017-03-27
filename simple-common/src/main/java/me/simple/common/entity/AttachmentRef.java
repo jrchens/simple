@@ -1,12 +1,10 @@
 package me.simple.common.entity;
 
-import java.io.Serializable;
-
-public class AttachmentRef implements Serializable {
+public class AttachmentRef extends Base {
     /**
      * 
      */
-    private static final long serialVersionUID = -6464570409778966267L;
+    private static final long serialVersionUID = -2829369986086706405L;
     private String refId;
     private String attachId;
     private String module;

@@ -1,13 +1,10 @@
 package me.simple.common.entity;
 
-import java.io.Serializable;
-
-public class Menu implements Serializable {
-
+public class Menu extends Base {
     /**
      * 
      */
-    private static final long serialVersionUID = 4744503940526908434L;
+    private static final long serialVersionUID = -4795216611374301646L;
     private String menuname;
     private String viewname;
     private String menuUrl;

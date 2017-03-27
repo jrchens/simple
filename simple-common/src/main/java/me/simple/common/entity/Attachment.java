@@ -1,7 +1,5 @@
 package me.simple.common.entity;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.management.Query;
@@ -12,11 +10,12 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
-public class Attachment implements Serializable {
-/**
+public class Attachment extends Base {
+    
+    /**
      * 
      */
-    private static final long serialVersionUID = -161875192773003964L;
+    private static final long serialVersionUID = 9023520091519049116L;
     //    @NotEmpty(groups={Save.class})
     private MultipartFile[] files;
     @Length(groups={Save.class,Query.class},min=1,max=32)
@@ -42,10 +41,6 @@ public class Attachment implements Serializable {
     private String attachSha1; // varchar(40) DEFAULT NULL COMMENT '文件SHA1摘要值',
     private int imageWidth; // int(11) DEFAULT NULL COMMENT '图片宽度',
     private int imageHeight; // int(11) DEFAULT NULL COMMENT '图片高度',
-    private String cruser; // varchar(32) DEFAULT NULL COMMENT '创建者',
-    private Timestamp crtime; // datetime DEFAULT NULL COMMENT '创建时间',
-    private String mduser; // varchar(32) DEFAULT NULL COMMENT '修改者',
-    private Timestamp mdtime; // datetime DEFAULT NULL COMMENT '修改用户',
     public String getAttachId() {
         return attachId;
     }
@@ -111,30 +106,6 @@ public class Attachment implements Serializable {
     }
     public void setImageHeight(int imageHeight) {
         this.imageHeight = imageHeight;
-    }
-    public String getCruser() {
-        return cruser;
-    }
-    public void setCruser(String cruser) {
-        this.cruser = cruser;
-    }
-    public Timestamp getCrtime() {
-        return crtime;
-    }
-    public void setCrtime(Timestamp crtime) {
-        this.crtime = crtime;
-    }
-    public String getMduser() {
-        return mduser;
-    }
-    public void setMduser(String mduser) {
-        this.mduser = mduser;
-    }
-    public Timestamp getMdtime() {
-        return mdtime;
-    }
-    public void setMdtime(Timestamp mdtime) {
-        this.mdtime = mdtime;
     }
     public String getRefId() {
         return refId;

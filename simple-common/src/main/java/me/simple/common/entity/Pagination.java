@@ -1,10 +1,15 @@
 package me.simple.common.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class Pagination<T> {
+public class Pagination<T> implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6088082816734315989L;
     private int currentPage = 1;
     private int pageSize = 10;
     private int visiblePage = 10;

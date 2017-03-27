@@ -1,6 +1,5 @@
 package me.simple.common.entity;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.validation.groups.Get;
@@ -13,11 +12,11 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-public class Article implements Serializable {
+public class Article extends Base {
     /**
      * 
      */
-    private static final long serialVersionUID = -3543063964005985255L;
+    private static final long serialVersionUID = -3486229570316684103L;
     // ===
     private int channelId;
     private String channelNameValue;

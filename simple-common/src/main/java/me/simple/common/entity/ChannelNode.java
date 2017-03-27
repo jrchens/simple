@@ -1,15 +1,14 @@
 package me.simple.common.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class ChannelNode implements Serializable {
+public class ChannelNode extends Base {
     /**
      * 
      */
-    private static final long serialVersionUID = -8228586583483248116L;
+    private static final long serialVersionUID = -1436444294677291155L;
     // ===
     private List<ChannelNode> nodes = Lists.newArrayList();
     // ===

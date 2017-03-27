@@ -1,7 +1,5 @@
 package me.simple.common.entity;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.validation.groups.Get;
@@ -13,11 +11,11 @@ import org.hibernate.validator.constraints.Length;
 
 import com.google.common.collect.Lists;
 
-public class Channel implements Serializable {
+public class Channel extends Base {
     /**
      * 
      */
-    private static final long serialVersionUID = -8539009958107486382L;
+    private static final long serialVersionUID = 239514299929506595L;
     // ===
     private List<Channel> children = Lists.newArrayList();
     // ===
@@ -31,10 +29,6 @@ public class Channel implements Serializable {
     private String url;
     
     private String owner;
-    private String cruser; // varchar(32) DEFAULT NULL COMMENT '创建者',
-    private Timestamp crtime; // datetime DEFAULT NULL COMMENT '创建时间',
-    private String mduser; // varchar(32) DEFAULT NULL COMMENT '修改者',
-    private Timestamp mdtime; // datetime DEFAULT NULL COMMENT '修改用户',
     public String getChannelName() {
         return channelName;
     }
@@ -58,30 +52,6 @@ public class Channel implements Serializable {
     }
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-    public String getCruser() {
-        return cruser;
-    }
-    public void setCruser(String cruser) {
-        this.cruser = cruser;
-    }
-    public Timestamp getCrtime() {
-        return crtime;
-    }
-    public void setCrtime(Timestamp crtime) {
-        this.crtime = crtime;
-    }
-    public String getMduser() {
-        return mduser;
-    }
-    public void setMduser(String mduser) {
-        this.mduser = mduser;
-    }
-    public Timestamp getMdtime() {
-        return mdtime;
-    }
-    public void setMdtime(Timestamp mdtime) {
-        this.mdtime = mdtime;
     }
     public List<Channel> getChildren() {
         return children;

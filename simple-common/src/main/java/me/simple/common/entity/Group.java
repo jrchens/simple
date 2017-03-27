@@ -1,7 +1,5 @@
 package me.simple.common.entity;
 
-import java.io.Serializable;
-
 import javax.validation.groups.Get;
 import javax.validation.groups.Remove;
 import javax.validation.groups.Save;
@@ -9,12 +7,12 @@ import javax.validation.groups.Update;
 
 import org.hibernate.validator.constraints.Length;
 
-public class Group implements Serializable {
+public class Group extends Base {
 
     /**
      * 
      */
-    private static final long serialVersionUID = 3732751759055964656L;
+    private static final long serialVersionUID = 5845791634698346684L;
     @Length(groups={Save.class,Update.class,Get.class,Remove.class},min=1,max=32)
     private String groupname;
     @Length(groups={Save.class,Update.class},min=1,max=32)

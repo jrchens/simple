@@ -1,6 +1,5 @@
 package me.simple.common.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.groups.Get;
@@ -11,12 +10,12 @@ import javax.validation.groups.Update;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class User implements Serializable {
+public class User extends Base {
     
     /**
      * 
      */
-    private static final long serialVersionUID = 2764439166562305535L;
+    private static final long serialVersionUID = -4526877403127282622L;
 
     // ===
     @NotEmpty(groups={Update.class})
