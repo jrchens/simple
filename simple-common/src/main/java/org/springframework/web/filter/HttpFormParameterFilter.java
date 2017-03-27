@@ -38,9 +38,10 @@ public class HttpFormParameterFilter extends OncePerRequestFilter {
 
     private final FormHttpMessageConverter formConverter = new AllEncompassingFormHttpMessageConverter();
     private static final Logger logger = LoggerFactory.getLogger(HttpFormParameterFilter.class);
-    private String[] saveSuffixs = { "save" };
-    private String[] modifySuffixs = { "update" };
-    private String[] skipURI = { "login","logout" };
+    // TODO config as init-param
+    private String[] saveSuffixs = { "save", "import" };
+    private String[] modifySuffixs = { "update", "modify", "remove" };
+    private String[] skipURI = { "login", "logout" };
 
     /**
      * The default character set to use for reading form data.
@@ -53,21 +54,21 @@ public class HttpFormParameterFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request, HttpServletResponse response,
 	    FilterChain filterChain) throws ServletException, IOException {
 	String uri = StringUtils.trimWhitespace(request.getRequestURI());
-	logger.info("{}",uri);
+	logger.info("{}", uri);
 	boolean skip = false;
 	for (String _uri : skipURI) {
-	    if(uri.endsWith(_uri)){
+	    if (uri.endsWith(_uri)) {
 		skip = true;
 		break;
 	    }
 	}
-	
+
 	if ("POST".equals(request.getMethod()) && !skip) {
 	    Subject subject = SecurityUtils.getSubject();
 	    Object user = subject.getPrincipal();
 	    Timestamp now = new Timestamp(System.currentTimeMillis());
-	    logger.info("{}, {}",user,now);
-	    
+	    logger.info("{}, {}", user, now);
+
 	    HttpInputMessage inputMessage = new ServletServerHttpRequest(request) {
 		@Override
 		public InputStream getBody() throws IOException {
