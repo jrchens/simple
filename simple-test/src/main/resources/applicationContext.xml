@@ -61,6 +61,7 @@
   </bean>
 
   <tx:annotation-driven />
+  
 <!--   <aop:config> -->
 <!--       <aop:pointcut id="txPointCut" expression="execution(* me.simple.*.service.impl.*(..))"/> -->
 <!--       <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/> -->

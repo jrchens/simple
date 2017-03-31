@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import me.simple.backup.service.BackupService;
+import me.simple.entity.Backup;
+import me.simple.util.Page;
+import me.simple.util.Pageable;
 
 @Service
 @Transactional
@@ -26,9 +30,8 @@ public class BackupServiceImpl implements BackupService {
 	private static final Logger logger = LoggerFactory.getLogger(BackupService.class);
 	private JdbcTemplate jdbcTemplate;
 	private SimpleJdbcInsert simpleJdbcInsert;
-	private String simpleJdbcInsertable = "user";
+	private String simpleJdbcInsertable = "sys_user";
 	private List<String> simpleJdbcInsertColumnNames = Lists.newArrayList("username","viewname","password","deleted","cruser","crtime");
-	
 	@Autowired
 	public void setDataSource(DataSource dataSource){
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -83,4 +86,35 @@ public class BackupServiceImpl implements BackupService {
 		return result;
 	}
 
+	@Override
+	public int save(Backup backup) {
+		logger.info("me.simple.backup.service.impl.BackupService.save(Backup backup)");
+		int aff = 0;
+		try {
+			aff = simpleJdbcInsert.execute(new BeanPropertySqlParameterSource(backup));
+		} catch (Exception e) {
+			throw new RuntimeException("save backup error",e);
+		}
+		return aff;
+	}
+
+	@Override
+	public int delete(String backupId) {
+	    return 0;
+	}
+
+	@Override
+	public int update(Backup backup) {
+	    return 0;
+	}
+
+	@Override
+	public Backup get(String backupId) {
+	    return null;
+	}
+
+	@Override
+	public Page<Backup> query(Backup backup, Pageable pageable) {
+	    return null;
+	}
 }
