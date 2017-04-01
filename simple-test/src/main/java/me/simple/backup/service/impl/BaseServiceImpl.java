@@ -117,3 +117,20 @@ public class BaseServiceImpl implements BaseService {
     }
 
 }
+/*
+CREATE TABLE `sys_base` (
+  `row_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL,
+  `price` double(15,2) DEFAULT NULL,
+  `pub_date` date DEFAULT NULL,
+  `row_status` int(11) DEFAULT '1',
+  `disabled` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `cruser` varchar(64) DEFAULT NULL,
+  `crtime` datetime DEFAULT NULL,
+  `mduser` varchar(64) DEFAULT NULL,
+  `mdtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`row_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+*/
