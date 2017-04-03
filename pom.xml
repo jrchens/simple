@@ -248,6 +248,14 @@
       <version>3.0.1</version>
       <scope>provided</scope>
     </dependency>
+    
+    <!-- velocity -->
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.7</version>
+    </dependency>
+    
 
     <!-- kaptcha -->
     <!-- <dependency> -->
@@ -397,5 +405,6 @@
     <module>simple-console</module>
     <module>simple-layui</module>
     <module>simple-test</module>
+    <module>simple-generate</module>
   </modules>
 </project>
