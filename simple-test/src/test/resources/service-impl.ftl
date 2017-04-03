@@ -31,7 +31,7 @@ public class ${beaname}ServiceImpl implements ${beaname}Service {
     private SimpleJdbcInsert simpleJdbcInsert;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private String delete_sql = "update ${tablename} set deleted = 1 , mduser = :mduser , mdtime = :mdtime where ${PK.name} = :${PK.name}";
-    private String update_sql = "update ${tablename} set name = :name, price = :price, pub_date = :pub_date, disabled = :disabled, row_status = :row_status , mduser = :mduser , mdtime = :mdtime where ${PK.name} = :${PK.name}";
+    private String update_sql = "update ${tablename} set ${updateFields} mduser = :mduser , mdtime = :mdtime where ${PK.name} = :${PK.name}";
     private String select_sql = "select * from ${tablename} where deleted = 0 ";
     // "row_id","name","price","pub_date","deleted","disabled","row_status","cruser","crtime","mduser","mdtime"
 

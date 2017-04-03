@@ -26,6 +26,7 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
@@ -42,13 +43,33 @@ public class EntityGenerateTest {
 	this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    @Test
-    public void testGenerateMetaData() throws Exception {
-	final String tablename = "sys_base";
-	final String beaname = "SysBase";
-	final List<String> queryFieldsDefine = Lists.newArrayList("name");
+    private String getBeaname(String tablename) {
+	String[] tablenames = tablename.split("_");
+	StringBuffer buffer = new StringBuffer();
+	for (String p : tablenames) {
+	    if (StringUtils.hasText(p)) {
+		if (p.length() == 1) {
+		    buffer.append(p.substring(0, 1).toUpperCase());
+		} else {
+		    buffer.append(p.substring(0, 1).toUpperCase()).append(p.substring(1));
+		}
+	    }
+	}
+	return buffer.toString();
+    }
 
-	logger.info("beaname:{}", beaname);
+    @Test
+    public void testGenerateBaseCode() throws Exception {
+	final String pkg = "me.simple.backup";
+	final String tablename = "sys_base";
+	final List<String> queryFieldsDefine = Lists.newArrayList("name");
+	final List<String> updateFieldsDefine = Lists.newArrayList("name", "price", "pub_date", "disabled",
+		"row_status");
+
+	StringBuffer updateFields = new StringBuffer();
+	for (String field : updateFieldsDefine) {
+	    updateFields.append(field).append(" = :").append(field).append(" , ");
+	}
 
 	final List<BeanField> list = Lists.newArrayList();
 	final List<String> pks = Lists.newArrayList();
@@ -76,10 +97,10 @@ public class EntityGenerateTest {
 		    columnType = columnType.substring(columnType.lastIndexOf('.') + 1);
 		    columnType = "BigInteger".equals(columnType) ? "Long" : columnType;
 		    Boolean isPrimaryKey = pks.contains(columnName);
-		    
+
 		    BeanField bf = new BeanField(columnName, columnType, isPrimaryKey);
-		    
-		    if(queryFieldsDefine.contains(columnName)){
+
+		    if (queryFieldsDefine.contains(columnName)) {
 			queryFields.add(bf);
 		    }
 		    // if (pks.contains(columnName)) {
@@ -115,14 +136,16 @@ public class EntityGenerateTest {
 
 	ve.init();
 
+	String beaname = getBeaname(tablename);
+	
 	VelocityContext context = new VelocityContext();
-	String pkg = "me.simple.backup";
 	context.put("package", pkg);
 	context.put("beaname", beaname);
 	context.put("tablename", tablename);
 	context.put("PK", list.get(0));
 	context.put("fields", list);
 	context.put("queryFields", queryFields);
+	context.put("updateFields", updateFields);
 
 	StringWriter writer = new StringWriter();
 	Template t = ve.getTemplate("entity.ftl");
