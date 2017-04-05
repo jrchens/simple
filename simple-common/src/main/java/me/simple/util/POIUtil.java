@@ -2,15 +2,16 @@ package me.simple.util;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellReference;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.Lists;
@@ -18,11 +19,10 @@ import com.google.common.collect.Lists;
 public class POIUtil {
 
     private static final String dateFormatPattern = "yyyy-MM-dd";
-    private static final String datetimeFormatPattern = "yyyy-MM-dd HH:mi:ss";
     private static final String numberFormatPattern = "#0.##";
-    
-    private static final DecimalFormat numberFormat = new DecimalFormat();
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
+
+    private static final DecimalFormat numberFormat = new DecimalFormat(numberFormatPattern);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatPattern);
 
     /**
      * The following patterns are used in {@link #isADateFormat(String)}
@@ -39,7 +39,7 @@ public class POIUtil {
 	    return false;
 	}
 	for (Cell cell : row) {
-	    if (cell != null && getCellValue(cell, null, null) != null) {
+	    if (cell != null && getCellValue(cell, null) != null) {
 		return true;
 	    }
 	}
@@ -161,81 +161,114 @@ public class POIUtil {
 	return result;
     }
 
+    public static List<String> getFirstTitleRow(Row row) {
+	List<String> titles = Lists.newArrayList();
+	if (row != null) {
+	    for (Cell cell : row) {
+		if (cell == null || cell.getCellType() != Cell.CELL_TYPE_STRING
+			|| !StringUtils.hasText(cell.getStringCellValue())) {
+		    break;
+		}
+		titles.add(cell.getStringCellValue());
+	    }
+	}
+	return titles;
+    }
+
+    public static String getCellAddress(Cell cell) {
+	CellReference ref = new CellReference(cell);
+	return ref.formatAsString();
+    }
+
     /**
      * 
      * @param cell
      * @return #0.## | yyyy-MM-dd | cell.getStringCellValue()
      */
-    public static String getCellStringValue(Cell cell) {
+    public static String getCellStringValue(Cell cell, String dataType) {
 	String value = null;
-	Object _value = getCellValue(cell, null, null);
-	if(_value == null){
-	    return null;
-	}
-	if (_value instanceof java.sql.Date) {
-	    dateFormat.applyPattern(dateFormatPattern);
-	    value = dateFormat.format(_value);
-	} else if (_value instanceof java.sql.Timestamp) {
-	    dateFormat.applyPattern(datetimeFormatPattern);
-	    value = dateFormat.format(_value);
-	} else if (_value instanceof java.lang.Number) {
-	    numberFormat.applyPattern(numberFormatPattern);
-	    value = numberFormat.format(_value);
-	} else {
-	    value = _value.toString();
-	}
-	return value;
-    }
-
-    public static Object getCellValue(Cell cell, String dataType, String dataPattern) {
-	Object value = null;
-	if (cell == null) {
-	    return value;
-	}
 	try {
-	    int cellType = cell.getCellType();
-	    if (cellType == Cell.CELL_TYPE_BLANK) {
-		return value;
-	    } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
-		double _value = cell.getNumericCellValue();
-		CellStyle cellStyle = cell.getCellStyle();
-		String formatString = cellStyle.getDataFormatString();
-		if (DateUtil.isCellDateFormatted(cell) || isADateFormat(formatString)) {
-		    value = DateUtil.getJavaDate(_value);
-		} else {
-		    if (StringUtils.hasText(dataPattern)) {
-			numberFormat.applyPattern(dataPattern);
+	    int cellType = 3;
+	    if (cell != null && (cellType = cell.getCellType()) != Cell.CELL_TYPE_BLANK) {
+		if (cellType == Cell.CELL_TYPE_NUMERIC) {
+		    double _value = cell.getNumericCellValue();
+		    if (DateUtil.isCellDateFormatted(cell)
+			    || isADateFormat(cell.getCellStyle().getDataFormatString())) {
+			value = dateFormat.format(DateUtil.getJavaDate(_value));
 		    } else {
-			numberFormat.applyPattern(numberFormatPattern);
+			value = numberFormat.format(_value);
+			if (dataType != null && "date".indexOf(dataType) == 0) {
+			    Date date = DateUtils.parseDate(numberFormat.format(_value), new String[] { "yyyyMMdd" });
+			    value = dateFormat.format(date);
+			}
 		    }
-		    value = numberFormat.parse(String.valueOf(_value));
-		}
-	    } else if (cellType == Cell.CELL_TYPE_STRING) {
-		String _value = cell.getStringCellValue();
-		if (StringUtils.hasText(_value)) {
-		    if (StringUtils.hasText(dataType)) {
-			if (dataType.startsWith("date")) {
-			    long ms = DateUtils.parseDate(_value, new String[] { "yyyyMMdd", "yyyy/MM/dd", "yyyy-MM-dd",
-				    "yyyy.MM.dd", "yyyy年MM月dd日" }).getTime();
-			    value = new java.sql.Date(ms);
-			} else if (dataType.startsWith("datetime")) {
-			    long ms = DateUtils.parseDate(_value, new String[] { "yyyy-MM-dd HH:mi:ss" }).getTime();
-			    value = new java.sql.Timestamp(ms);
-			} else if (dataType.startsWith("double")) {
-			    if (StringUtils.hasText(dataPattern)) {
-				numberFormat.applyPattern(dataPattern);
-			    } else {
-				numberFormat.applyPattern(numberFormatPattern);
-			    }
-			    value = numberFormat.parse(String.valueOf(_value));
+		} else if (cellType == Cell.CELL_TYPE_STRING) {
+		    String _value = cell.getStringCellValue();
+		    if (StringUtils.hasText(_value)) {
+			if (dataType != null && "date".indexOf(dataType) == 0) {
+			    Date date = DateUtils.parseDate(_value, new String[] { "yyyyMMdd", "yyyy/MM/dd",
+				    "yyyy-MM-dd", "yyyy.MM.dd", "yyyy年MM月dd日" });
+			    value = dateFormat.format(date);
+			} else if (dataType != null && "double".indexOf(dataType) == 0) {
+			    value = numberFormat.format(_value);
+			} else {
+			    value = _value;
 			}
 		    } else {
-			value = _value;
+			value = null;
 		    }
 		}
 	    }
 	} catch (Exception e) {
-	    throw new RuntimeException(e);
+	    throw new IllegalStateException(
+		    String.format("illegal cell value (%s), at cell (%s)", value, getCellAddress(cell)));
+	}
+	// DataFormatter df = new DataFormatter();
+	// value = df.formatCellValue(cell);
+	// if(!StringUtils.hasText(value)){
+	// value = null;
+	// }
+	return value;
+    }
+
+    public static Object getCellValue(Cell cell, String dataType) {
+	Object value = null;
+	try {
+	    int cellType = 3;
+	    if (cell != null && (cellType = cell.getCellType()) != Cell.CELL_TYPE_BLANK) {
+		if (cellType == Cell.CELL_TYPE_NUMERIC) {
+		    double _value = cell.getNumericCellValue();
+		    if (DateUtil.isCellDateFormatted(cell)
+			    || isADateFormat(cell.getCellStyle().getDataFormatString())) {
+			value = DateUtil.getJavaDate(_value);
+		    } else {
+			if (dataType != null && "date".indexOf(dataType) == 0) {
+			    Date d = DateUtils.parseDate(numberFormat.format(_value), new String[] { "yyyyMMdd" });
+			    value = new java.sql.Date(d.getTime());
+			} else if (dataType != null && "double".indexOf(dataType) == 0) {
+			    value = numberFormat.parse(String.valueOf(_value)).doubleValue();
+			} else {
+			    value = _value;
+			}
+		    }
+		} else if (cellType == Cell.CELL_TYPE_STRING) {
+		    String _value = cell.getStringCellValue();
+		    if (StringUtils.hasText(_value)) {
+			if (dataType != null && "date".indexOf(dataType) == 0) {
+			    Date d = DateUtils.parseDate(_value, new String[] { "yyyyMMdd", "yyyy/MM/dd", "yyyy-MM-dd",
+				    "yyyy.MM.dd", "yyyy年MM月dd日" });
+			    value = new java.sql.Date(d.getTime());
+			} else if (dataType != null && "double".indexOf(dataType) == 0) {
+			    value = numberFormat.parse(_value).doubleValue();
+			} else {
+			    value = _value;
+			}
+		    }
+		}
+	    }
+	} catch (Exception e) {
+	    throw new IllegalStateException(
+		    String.format("illegal cell value (%s), at cell (%s)", value, getCellAddress(cell)));
 	}
 	return value;
     }
@@ -255,7 +288,7 @@ public class POIUtil {
 		List<String> rowData = Lists.newArrayList();
 		int index = 0;
 		for (Cell cell : row) {
-		    String value = getCellStringValue(cell);
+		    String value = getCellStringValue(cell, null);
 		    if (!StringUtils.hasText(value)) {
 			throw new RuntimeException("row format error , cell value is empty");
 		    } else {

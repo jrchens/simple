@@ -132,7 +132,7 @@ public class XSSFWorkbookTest {
 	    for (int i = 0; i <= rows; i++) {
 		Row row = sheet.getRow(i);
 		for (Cell cell : row) {
-		    System.out.println(POIUtil.getCellStringValue(cell));
+		    System.out.println(POIUtil.getCellStringValue(cell,null));
 		}
 	    }
 	} finally {

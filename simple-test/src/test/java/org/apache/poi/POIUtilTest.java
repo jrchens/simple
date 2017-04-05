@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
+import com.google.common.collect.Lists;
+
 import me.simple.util.POIUtil;
 
 public class POIUtilTest {
@@ -34,7 +36,7 @@ public class POIUtilTest {
 		if (POIUtil.isValidRow(row)) {
 		    for (Cell cell : row) {
 			logger.info("is date cell: {}, cell value: {}", DateUtil.isCellDateFormatted(cell),
-				POIUtil.getCellStringValue(cell));
+				POIUtil.getCellStringValue(cell, null));
 		    }
 		}
 	    }
@@ -71,5 +73,43 @@ public class POIUtilTest {
     public void testIsADateFormat() throws Exception {
 	String formatString = "yyyy年MM月dd日";
 	logger.info("{} isADateFormat: {}", formatString, POIUtil.isADateFormat(formatString));
+    }
+
+    @Test
+    public void testGetCellStringValue2() throws Exception {
+	Workbook wb = null;
+	InputStream is = null;
+	try {
+	    is = new FileInputStream(ResourceUtils.getFile("classpath:data2.xls"));
+	    wb = new HSSFWorkbook(is);
+
+	    Sheet sheet = wb.getSheetAt(0);
+	    Row first = sheet.getRow(0);
+
+	    int columnum = 0;
+	    List<String> dataTypes = Lists.newArrayList();
+	    if (first != null && POIUtil.isValidRow(first)) {
+		columnum = first.getLastCellNum();
+		for (Cell cell : first) {
+		    dataTypes.add(cell.getStringCellValue());
+		}
+	    }
+
+	    for (Row row : sheet) {
+		if (row != null && POIUtil.isValidRow(row)) {
+		    if (row.getRowNum() > 0) {
+			for (int i = 0; i < columnum; i++) {
+			    String value = POIUtil.getCellStringValue(row.getCell(i), dataTypes.get(i));
+			    System.out.print(String.format("%s,\t\t\t", value));
+			}
+			System.out.println();
+		    }
+		}
+	    }
+
+	} finally {
+	    is.close();
+	    wb.close();
+	}
     }
 }
