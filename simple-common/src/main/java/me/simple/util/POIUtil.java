@@ -5,21 +5,24 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.Lists;
 
 public class POIUtil {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
+
     private static final String dateFormatPattern = "yyyy-MM-dd";
-    private static final DecimalFormat numberFormat = new DecimalFormat();
+    private static final String datetimeFormatPattern = "yyyy-MM-dd HH:mi:ss";
     private static final String numberFormatPattern = "#0.##";
+    
+    private static final DecimalFormat numberFormat = new DecimalFormat();
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
 
     /**
      * The following patterns are used in {@link #isADateFormat(String)}
@@ -36,7 +39,7 @@ public class POIUtil {
 	    return false;
 	}
 	for (Cell cell : row) {
-	    if (cell != null && StringUtils.hasText(getCellStringValue(cell))) {
+	    if (cell != null && getCellValue(cell, null, null) != null) {
 		return true;
 	    }
 	}
@@ -164,26 +167,77 @@ public class POIUtil {
      * @return #0.## | yyyy-MM-dd | cell.getStringCellValue()
      */
     public static String getCellStringValue(Cell cell) {
-	if (cell == null) {
-	    return "";
-	}
 	String value = null;
-	int type = cell.getCellType();
-	if (type == Cell.CELL_TYPE_NUMERIC) {
-	    double _value = cell.getNumericCellValue();
-	    CellStyle cellStyle = cell.getCellStyle();
-	    String formatString = cellStyle.getDataFormatString();
-	    if (DateUtil.isCellDateFormatted(cell) || isADateFormat(formatString)) {
-		dateFormat.applyPattern(dateFormatPattern);
-		value = dateFormat.format(DateUtil.getJavaDate(_value));
-	    } else {
-		numberFormat.applyPattern(numberFormatPattern);
-		value = numberFormat.format(cell.getNumericCellValue());
-	    }
-	} else if (type == Cell.CELL_TYPE_STRING) {
-	    value = cell.getStringCellValue();
+	Object _value = getCellValue(cell, null, null);
+	if(_value == null){
+	    return null;
 	}
-	return StringUtils.trimWhitespace(ObjectUtils.getDisplayString(value));
+	if (_value instanceof java.sql.Date) {
+	    dateFormat.applyPattern(dateFormatPattern);
+	    value = dateFormat.format(_value);
+	} else if (_value instanceof java.sql.Timestamp) {
+	    dateFormat.applyPattern(datetimeFormatPattern);
+	    value = dateFormat.format(_value);
+	} else if (_value instanceof java.lang.Number) {
+	    numberFormat.applyPattern(numberFormatPattern);
+	    value = numberFormat.format(_value);
+	} else {
+	    value = _value.toString();
+	}
+	return value;
+    }
+
+    public static Object getCellValue(Cell cell, String dataType, String dataPattern) {
+	Object value = null;
+	if (cell == null) {
+	    return value;
+	}
+	try {
+	    int cellType = cell.getCellType();
+	    if (cellType == Cell.CELL_TYPE_BLANK) {
+		return value;
+	    } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
+		double _value = cell.getNumericCellValue();
+		CellStyle cellStyle = cell.getCellStyle();
+		String formatString = cellStyle.getDataFormatString();
+		if (DateUtil.isCellDateFormatted(cell) || isADateFormat(formatString)) {
+		    value = DateUtil.getJavaDate(_value);
+		} else {
+		    if (StringUtils.hasText(dataPattern)) {
+			numberFormat.applyPattern(dataPattern);
+		    } else {
+			numberFormat.applyPattern(numberFormatPattern);
+		    }
+		    value = numberFormat.parse(String.valueOf(_value));
+		}
+	    } else if (cellType == Cell.CELL_TYPE_STRING) {
+		String _value = cell.getStringCellValue();
+		if (StringUtils.hasText(_value)) {
+		    if (StringUtils.hasText(dataType)) {
+			if (dataType.startsWith("date")) {
+			    long ms = DateUtils.parseDate(_value, new String[] { "yyyyMMdd", "yyyy/MM/dd", "yyyy-MM-dd",
+				    "yyyy.MM.dd", "yyyy年MM月dd日" }).getTime();
+			    value = new java.sql.Date(ms);
+			} else if (dataType.startsWith("datetime")) {
+			    long ms = DateUtils.parseDate(_value, new String[] { "yyyy-MM-dd HH:mi:ss" }).getTime();
+			    value = new java.sql.Timestamp(ms);
+			} else if (dataType.startsWith("double")) {
+			    if (StringUtils.hasText(dataPattern)) {
+				numberFormat.applyPattern(dataPattern);
+			    } else {
+				numberFormat.applyPattern(numberFormatPattern);
+			    }
+			    value = numberFormat.parse(String.valueOf(_value));
+			}
+		    } else {
+			value = _value;
+		    }
+		}
+	    }
+	} catch (Exception e) {
+	    throw new RuntimeException(e);
+	}
+	return value;
     }
 
     public static List<String[]> getSheetRow2(Sheet sheet) {
@@ -219,4 +273,36 @@ public class POIUtil {
 
 	return instants;
     }
+
+    // public static CellStyle getCellStyle(Workbook wb) {
+    // CellStyle style = wb.createCellStyle();
+    //
+    // short fontHeight = 12;
+    // Font font = wb.createFont();
+    // font.setColor(Font.COLOR_NORMAL);
+    // font.setFontHeightInPoints(fontHeight);
+    // font.setFontName("\u5b8b\u4f53");// 宋体
+    // style.setFont(font);
+    //
+    // style.setAlignment(CellStyle.ALIGN_CENTER);
+    // style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+    //
+    // style.setBorderTop(CellStyle.BORDER_THIN);
+    // style.setTopBorderColor(Font.COLOR_NORMAL);
+    // style.setBorderRight(CellStyle.BORDER_THIN);
+    // style.setRightBorderColor(Font.COLOR_NORMAL);
+    // style.setBorderBottom(CellStyle.BORDER_THIN);
+    // style.setBottomBorderColor(Font.COLOR_NORMAL);
+    // style.setBorderLeft(CellStyle.BORDER_THIN);
+    // style.setLeftBorderColor(Font.COLOR_NORMAL);
+    //
+    // style.setWrapText(true);
+    //
+    // try {
+    // wb.close();
+    // } catch (Exception e) {
+    // }
+    //
+    // return style;
+    // }
 }
