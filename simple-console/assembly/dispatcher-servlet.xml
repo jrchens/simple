@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+  
+  <context:property-placeholder location="classpath:config.properties" />
+  
+  <context:component-scan base-package="me.simple.*.controller,me.simple.web">
+    <context:include-filter type="annotation"
+      expression="org.springframework.stereotype.Controller" />
+    <context:include-filter type="annotation"
+      expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+  </context:component-scan>
+
+  <mvc:annotation-driven />
+
+  <!-- <mvc:redirect-view-controller -->
+  <!-- redirect-url="login" path="/" /> -->
+  <!-- <mvc:view-controller path="/" view-name="login"/> -->
+
+  <mvc:tiles-configurer>
+    <mvc:definitions location="classpath:tilesConfig.xml" />
+  </mvc:tiles-configurer>
+
+  <mvc:view-resolvers>
+    <mvc:tiles view-class="org.springframework.web.servlet.view.tiles3.TilesView" />
+    <!-- <mvc:jsp prefix="/WEB-INF/views/" suffix=".jsp" /> -->
+    <mvc:content-negotiation>
+      <mvc:default-views>
+        <bean
+          class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></bean>
+      </mvc:default-views>
+    </mvc:content-negotiation>
+  </mvc:view-resolvers>
+
+  <mvc:interceptors>
+    <mvc:interceptor>
+      <mvc:mapping path="/**" />
+      <!-- org.apache.shiro.web.filter.authz.HostFilter -->
+      <bean class="me.simple.web.servlet.IPInterceptor">
+        <property name="enable" value="${ip.interceptor.enable}"></property>
+        <property name="authorizedIps" value="${ip.interceptor.authorized}"></property>
+        <property name="deniedIps" value="${ip.interceptor.denied}"></property>
+      </bean>
+    </mvc:interceptor>
+<!--   <mvc:interceptor> -->
+<!--   <mvc:mapping path="/**"/> -->
+<!--   <mvc:exclude-mapping path="/login"/> -->
+<!--   <bean class="me.anla.common.security.CSRFHandlerInterceptor"></bean> -->
+<!--   </mvc:interceptor> -->
+  </mvc:interceptors>
+
+  <mvc:resources location="/WEB-INF/resources/" mapping="/resources/**"
+    cache-period="86400"></mvc:resources>
+
+  <!-- <bean id="viewResolver" -->
+  <!-- class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+  <!-- <property name="prefix" value="/WEB-INF/jsp/" /> -->
+  <!-- <property name="suffix" value=".jsp" /> -->
+  <!-- </bean> -->
+
+  <!-- org.springframework.context.support.ResourceBundleMessageSource -->
+  <!-- org.springframework.context.support.ReloadableResourceBundleMessageSource -->
+  <bean id="messageSource"
+    class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="defaultEncoding" value="UTF-8"></property>
+    <!-- <property name="cacheSeconds" value="300"></property> -->
+    <property name="basenames">
+      <list>
+        <value>message</value>
+        <value>error</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="multipartResolver"
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="defaultEncoding" value="UTF-8"></property>
+  </bean>
+
+
+<!--   <bean id="multipartResolver" -->
+<!--     class="org.springframework.web.multipart.support.StandardServletMultipartResolver"> -->
+<!--   </bean> -->
+
+
+
+  <!-- <bean name="requestDataValueProcessor" class="me.anla.common.security.CSRFRequestDataValueProcessor"></bean> -->
+
+  <!-- <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> -->
+  <!-- 定义默认的异常处理页面，当该异常类型的注册时使用 -->
+  <!-- <property name="defaultErrorView" value="error"></property> -->
+  <!-- 定义需要特殊处理的异常，用类名或完全路径名作为key，异常也页名作为值 -->
+  <!-- <property name="exceptionMappings"> -->
+  <!-- <props> -->
+  <!-- <prop key="cn.basttg.core.exception.BusinessException">error-business</prop> -->
+  <!-- </props> -->
+  <!-- </property> -->
+  <!-- </bean> -->
+
+  <!-- <bean id="kaptchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha"> -->
+  <!-- <property name="config"> -->
+  <!-- <bean class="com.google.code.kaptcha.util.Config"> -->
+  <!-- <constructor-arg> -->
+  <!-- <props> -->
+  <!-- 验证码宽度 -->
+  <!-- <prop key="kaptcha.image.width">150</prop> -->
+  <!-- 验证码高度 -->
+  <!-- <prop key="kaptcha.image.height">38</prop> -->
+  <!-- 生成验证码内容范围 -->
+  <!-- <prop key="kaptcha.textproducer.char.string">abcde2345678gfynmnpwx</prop> -->
+  <!-- 验证码个数 -->
+  <!-- <prop key="kaptcha.textproducer.char.length">4</prop> -->
+  <!-- 是否有边框 -->
+  <!-- <prop key="kaptcha.border">no</prop> -->
+  <!-- <prop key="kaptcha.border.color">white</prop> -->
+  <!-- <prop key="kaptcha.border.thickness">1</prop> -->
+  <!-- 验证码字体颜色 -->
+  <!-- <prop key="kaptcha.textproducer.font.color">red</prop> -->
+  <!-- 验证码字体大小 -->
+  <!-- <prop key="kaptcha.textproducer.font.size">35</prop> -->
+  <!-- 验证码所属字体样式 -->
+  <!-- <prop key="kaptcha.textproducer.font.names">Arial</prop> -->
+  <!-- <prop key="kaptcha.background.clear.from">white</prop> -->
+  <!-- <prop key="kaptcha.background.clear.to">white</prop> -->
+  <!-- <prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.ShadowGimpy</prop> -->
+  <!-- <prop key="kaptcha.noise.impl">com.google.code.kaptcha.impl.NoNoise</prop> -->
+  <!-- 干扰线颜色 -->
+  <!-- <prop key="kaptcha.noise.color">red</prop> -->
+  <!-- 验证码文本字符间距 -->
+  <!-- <prop key="kaptcha.textproducer.char.space">4</prop> -->
+  <!-- </props> -->
+  <!-- </constructor-arg> -->
+  <!-- </bean> -->
+  <!-- </property> -->
+  <!-- </bean> -->
+
+</beans>

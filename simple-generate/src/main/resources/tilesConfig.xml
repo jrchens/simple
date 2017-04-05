@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>       
+    
+    <definition name="login" template="/WEB-INF/views/login.jsp"></definition>
+    
+    <definition name="adminTemplate" template="/WEB-INF/template/admin/index.jsp">
+        <put-attribute name="top" value="/WEB-INF/template/admin/top.jsp" />
+        <put-attribute name="left" value="/WEB-INF/template/admin/left.jsp" />
+    </definition>
+
+    <definition name="*/*" extends="adminTemplate">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+    </definition>
+    
+</tiles-definitions>

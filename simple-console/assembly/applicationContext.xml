@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <context:component-scan base-package="me.simple.*.service.impl" />
+
+<!--   <bean id="config" -->
+<!--     class="org.springframework.beans.factory.config.PropertiesFactoryBean"> -->
+<!--     <property name="locations"> -->
+<!--       <list> -->
+<!--         <value>classpath:config.properties</value> -->
+<!--       </list> -->
+<!--     </property> -->
+<!--   </bean> -->
+
+  <context:property-placeholder location="classpath:config.properties" />
+
+  <bean id="dataSource"
+    class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="${jdbc.driverClassName}" />
+    <property name="url" value="${jdbc.url}" />
+    <property name="username" value="${jdbc.username}" />
+    <property name="password" value="${jdbc.password}" />
+  </bean>
+
+  <!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" -->
+  <!-- destroy-method="close"> -->
+  <!-- <property name="driverClass" value="${jdbc.driverClassName}" /> -->
+  <!-- <property name="jdbcUrl" value="${jdbc.url}" /> -->
+  <!-- <property name="user" value="${jdbc.username}" /> -->
+  <!-- <property name="password" value="${jdbc.password}" /> -->
+  <!-- </bean> -->
+
+  <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" -->
+  <!-- destroy-method="close"> -->
+  <!-- <property name="driverClassName" value="${jdbc.driverClassName}" /> -->
+  <!-- <property name="url" value="${jdbc.url}" /> -->
+  <!-- <property name="username" value="${jdbc.username}" /> -->
+  <!-- <property name="password" value="${jdbc.password}" /> -->
+  <!-- <property name="validationQuery" value="${database.validationQuery}"/> -->
+  <!-- <property name="testOnBorrow" value="${database.testOnBorrow}"/> -->
+  <!-- </bean> -->
+
+  <bean id="transactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+
+  <tx:annotation-driven />
+
+  <import resource="classpath:cacheConfig.xml" />
+  <import resource="classpath:shiroConfig.xml" />
+
+</beans>
