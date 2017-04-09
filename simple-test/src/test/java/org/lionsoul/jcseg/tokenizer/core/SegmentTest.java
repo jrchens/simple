@@ -13,7 +13,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 public class SegmentTest {
 
     @Test
-    public void testStandardQueryParser() throws Exception {
+    public void testokenizer() throws Exception {
 	JcsegTaskConfig tokenizerConfig = new JcsegTaskConfig(true);
 	ADictionary dic = DictionaryFactory.createSingletonDictionary(tokenizerConfig);
 	ISegment tokenizerSeg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE,
@@ -26,6 +26,5 @@ public class SegmentTest {
 	while ((word = tokenizerSeg.next()) != null) {
 	    System.out.println(word.getValue());
 	}
-	
     }
 }
