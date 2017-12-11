@@ -1,6 +1,5 @@
 package org.apache.http.client;
 
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -82,6 +81,26 @@ public class HttpClientTest {
 		System.out.println(format.format(now));
 	}
 
+
+	@Test
+	public void testSign() throws Exception {
+		String string_to_sign = "POST /openapi/index.php?method=newOrder\n"+
+				"Mon, 11 Dec 2017 15:27:10 GMT";
+				String client_secret = "65bd39b97db32f409adb50d0e2dccd49";
+				
+				String hmacSha1 = Hashing.hmacSha1(client_secret.getBytes()).hashString(string_to_sign, Charsets.UTF_8).toString();
+				
+				String signature = BaseEncoding.base64().encode(hmacSha1.getBytes(Charsets.UTF_8));
+				
+				logger.info("string_to_sign:{}",string_to_sign);
+				logger.info("client_secret:{}",client_secret);
+				logger.info("hmacSha1:{}",hmacSha1);
+				logger.info("signature:{}",signature); // LH test:WymO6w180DUmp91DaYiHY6Tt0rA=
+				logger.info("signature as byte:{}",BaseEncoding.base64().encode(Hashing.hmacSha1(client_secret.getBytes()).hashString(string_to_sign, Charsets.UTF_8).asBytes())); // LH test:WymO6w180DUmp91DaYiHY6Tt0rA=
+				
+				
+
+	}
 	@Test
 	public void testPOSTJSON() throws Exception {
 
@@ -101,9 +120,8 @@ public class HttpClientTest {
 
 		String string_to_sign = "POST " + "/openapi/index.php?method=newOrder" + "\n" + date;
 		String client_secret = "65bd39b97db32f409adb50d0e2dccd49";
-		String hmac = Hashing.hmacSha1(client_secret.getBytes()).hashString(string_to_sign, Charsets.UTF_8).toString();
-		hmac = new BigInteger(hmac, 16).toString(2);
-		String signature = BaseEncoding.base64().encode(hmac.getBytes());
+		byte[] rawOutputSha1 = Hashing.hmacSha1(client_secret.getBytes()).hashString(string_to_sign, Charsets.UTF_8).asBytes();
+		String signature = BaseEncoding.base64().encode(rawOutputSha1);
 		String appname = "test";
 		String authorization = "LH " + appname + ":" + signature;
 		String partnerId = "508";
@@ -112,7 +130,6 @@ public class HttpClientTest {
 
 		logger.info("string_to_sign:{}",string_to_sign);
 		logger.info("client_secret:{}",client_secret);
-		logger.info("hmac:{}",hmac);
 		logger.info("signature:{}",signature);
 		logger.info("authorization:{}",authorization);
 		logger.info("appname:{}",appname);
