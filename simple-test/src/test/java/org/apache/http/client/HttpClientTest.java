@@ -8,15 +8,19 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.commons.codec.binary.BinaryCodec;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.shiro.codec.Base64;
+import org.hsqldb.types.Charset;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +29,7 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import com.google.common.io.BaseEncoding;
+import com.google.common.primitives.Bytes;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -82,6 +87,23 @@ public class HttpClientTest {
 		System.out.println(format.format(now));
 	}
 
+
+	@Test
+	public void testSign() throws Exception {
+		String string_to_sign = "POST /openapi/index.php?method=newOrder\n"+
+				"Mon, 11 Dec 2017 15:27:10 GMT";
+				String client_secret = "65bd39b97db32f409adb50d0e2dccd49";
+				
+				String hmacSha1 = Hashing.hmacSha1(client_secret.getBytes()).hashString(string_to_sign, Charsets.UTF_8).toString();
+				
+				String signature = BaseEncoding.base64().encode(hmacSha1.getBytes(Charsets.UTF_8));
+				
+				logger.info("string_to_sign:{}",string_to_sign);
+				logger.info("client_secret:{}",client_secret);
+				logger.info("hmacSha1:{}",hmacSha1);
+				logger.info("signature:{}",signature); // LH test:WymO6w180DUmp91DaYiHY6Tt0rA=
+
+	}
 	@Test
 	public void testPOSTJSON() throws Exception {
 
