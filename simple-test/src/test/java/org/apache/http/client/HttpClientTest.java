@@ -170,7 +170,7 @@ public class HttpClientTest {
 			
 		    String orderId = "123"; //string",
 		    String payId = "456"; //string",
-		    String LHDealId = "789"; //string",
+		    String LHDealId = "1590"; //string",
 		    int sellPrice = 4; // 5,
 		    int quantity = 2; // 3,
 		    String travelDate = "2017-12-10";
