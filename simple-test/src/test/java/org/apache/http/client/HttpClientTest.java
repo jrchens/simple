@@ -7,19 +7,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.apache.commons.codec.binary.BinaryCodec;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.shiro.codec.Base64;
-import org.hsqldb.types.Charset;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +24,6 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import com.google.common.io.BaseEncoding;
-import com.google.common.primitives.Bytes;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -101,13 +96,7 @@ public class HttpClientTest {
 				logger.info("client_secret:{}",client_secret);
 				logger.info("hmacSha1:{}",hmacSha1);
 				logger.info("signature:{}",signature); // LH test:WymO6w180DUmp91DaYiHY6Tt0rA=
-<<<<<<< HEAD
 				logger.info("signature as byte:{}",BaseEncoding.base64().encode(Hashing.hmacSha1(client_secret.getBytes()).hashString(string_to_sign, Charsets.UTF_8).asBytes())); // LH test:WymO6w180DUmp91DaYiHY6Tt0rA=
-				
-				
-=======
->>>>>>> 497a6ea7549307d46627bcea96f4afce16566260
-
 	}
 	@Test
 	public void testPOSTJSON() throws Exception {
