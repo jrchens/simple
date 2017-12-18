@@ -20,7 +20,9 @@ hs_err_pid*
 
 # maven compile file
 target/
-
+.idea
+.DS_Store
+*.iml
 
 # jrebel config file
 rebel.xml
